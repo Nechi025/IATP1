@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
-    public GameObject body;
     public Animator _anim;
     public CharacterController player;
 
