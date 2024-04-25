@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2279651815086167708}
-  - component: {fileID: 5673546923463166296}
   m_Layer: 0
   m_Name: SkeletonCamera
   m_TagString: Untagged
@@ -35,27 +34,6 @@ Transform:
   - {fileID: 3172170086734059695}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &5673546923463166296
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1506774668684119078}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2ff71a2e12b3ef04c94d3fe5d083a3af, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3588345773280101363
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,8 +411,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c1ca3285c93177499c7bab2536afb56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: 1
-  target: {fileID: 0}
   animator: {fileID: 8005857403162752981}
 --- !u!1 &7474768627788168426
 GameObject:
