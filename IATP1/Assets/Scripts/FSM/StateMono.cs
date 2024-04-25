@@ -13,7 +13,7 @@ public class StateMono<T> : MonoBehaviour, IState<T>
 
     public virtual void Execute()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public virtual void LateExecute()
