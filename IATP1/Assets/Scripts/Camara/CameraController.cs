@@ -6,27 +6,29 @@ public class CameraController : MonoBehaviour
 {
     public Transform target;
     ILineOfSight _los;
-    IAlert _alert;
-    Animator anim;
+    FSM<CameraStatesEnum> _fsm;
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
         _los = GetComponent<ILineOfSight>();
-        _alert = GetComponent<IAlert>();
+        InitializeFSM();
+    }
+
+    void InitializeFSM()
+    {
+        _fsm = new FSM<CameraStatesEnum>();
+
+        var normal = new CameraStateNormal<CameraStatesEnum>(_los, target, CameraStatesEnum.Alert);
+        var alert = GetComponent<CameraStateAlert>();
+
+        normal.AddTransition(CameraStatesEnum.Alert, alert);
+        alert.AddTransition(CameraStatesEnum.Normal, normal);
+
+        _fsm.SetInit(normal);
     }
 
     private void Update()
     {
-        if (_los.CheckRange(target) && _los.CheckAngle(target) && _los.CheckView(target))
-        {
-            _alert.Alert = true;
-            anim.SetFloat("PlayerInView", 1);
-        }
-        else
-        {
-            _alert.Alert = false;
-            anim.SetFloat("PlayerInView", 0);
-        }
+        _fsm.OnUpdate();
     }
 }

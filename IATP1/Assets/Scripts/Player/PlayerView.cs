@@ -11,6 +11,5 @@ public class PlayerView : MonoBehaviour
     private void Update()
     {
         _anim.SetFloat("Vel", player.velocity.magnitude);
-        Debug.Log(player.velocity.magnitude);
     }
 }

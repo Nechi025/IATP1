@@ -5,7 +5,7 @@ using UnityEngine;
 public class StateMono<T> : MonoBehaviour, IState<T>
 {
     protected FSM<T> _fsm;
-    Dictionary<T, IState<T>> _transitions;
+    Dictionary<T, IState<T>> _transitions = new Dictionary<T, IState<T>>();
 
     public virtual void Enter()
     {

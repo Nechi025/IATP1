@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraView : MonoBehaviour
 {
-    public GameObject alertUI;
+    /*public GameObject alertUI;
     IAlert _alert;
 
     private void Awake()
@@ -15,5 +15,5 @@ public class CameraView : MonoBehaviour
     private void Update()
     {
         alertUI.SetActive(_alert.Alert);
-    }
+    }*/
 }
