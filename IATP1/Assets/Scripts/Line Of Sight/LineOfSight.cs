@@ -14,11 +14,21 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
     public float angle;
     public bool CheckRange(Transform target)
     {
+        return CheckRange(target, range);
+    }   
+    
+    public bool CheckRange(Transform target, float range)
+    {
         float diastance = Vector3.Distance(target.position, Origin);
         return diastance <= range;
     }
 
     public bool CheckAngle(Transform target)
+    {
+        return CheckAngle(target, angle);
+    }
+
+    public bool CheckAngle(Transform target, float angle)
     {
         Vector3 dirToTarget = target.position - Origin;
         float angleToTarget = Vector3.Angle(Forward, dirToTarget);
@@ -27,10 +37,15 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
 
     public bool CheckView(Transform target)
     {
+        return CheckView(target, maskObs);
+    }
+    public bool CheckView(Transform target, LayerMask maskObs)
+    {
         Vector3 dirToTarget = target.position - Origin;
         float distance = dirToTarget.magnitude;
         return !Physics.Raycast(Origin, dirToTarget, distance, maskObs);
     }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

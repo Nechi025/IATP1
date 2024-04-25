@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlayerStatesEnum
+public enum StatesEnum
 {
     Default,
     Idle,
-    Walk
+    Walk,
+    Attack,
+    Chase
 }
