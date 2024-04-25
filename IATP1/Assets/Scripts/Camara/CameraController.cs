@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target; 
+    public Transform target;
     ILineOfSight _los;
     IAlert _alert;
+    Animator anim;
 
     private void Awake()
     {
+        anim = GetComponent<Animator>();
         _los = GetComponent<ILineOfSight>();
         _alert = GetComponent<IAlert>();
     }
@@ -19,10 +21,12 @@ public class CameraController : MonoBehaviour
         if (_los.CheckRange(target) && _los.CheckAngle(target) && _los.CheckView(target))
         {
             _alert.Alert = true;
+            anim.SetFloat("PlayerInView", 1);
         }
         else
         {
             _alert.Alert = false;
+            anim.SetFloat("PlayerInView", 0);
         }
     }
 }
