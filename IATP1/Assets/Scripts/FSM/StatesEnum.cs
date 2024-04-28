@@ -8,5 +8,7 @@ public enum StatesEnum
     Idle,
     Walk,
     Attack,
-    Chase
+    Chase,
+    Patrol,
+    ChaseCam
 }

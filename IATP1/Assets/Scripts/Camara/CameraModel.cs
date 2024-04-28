@@ -5,6 +5,12 @@ using UnityEngine;
 public class CameraModel : MonoBehaviour, IAlert
 {
     bool _isAlert;
+    public Animator anim;
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     public bool Alert
     {
