@@ -10,5 +10,6 @@ public enum StatesEnum
     Attack,
     Chase,
     Patrol,
-    ChaseCam
+    ChaseCam,
+    Reload
 }
