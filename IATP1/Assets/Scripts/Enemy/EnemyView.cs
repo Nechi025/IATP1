@@ -12,11 +12,17 @@ public class EnemyView : MonoBehaviour
     {
         _model = GetComponent<EnemyModel>();
         _model.onAttack += OnAttack;
+        _model.onReload += OnReload;
     }
 
     void OnAttack()
     {
         _anim.SetTrigger("Attack");
+    }
+
+    void OnReload()
+    {
+        _anim.SetTrigger("Reload");
     }
 
     private void Update()

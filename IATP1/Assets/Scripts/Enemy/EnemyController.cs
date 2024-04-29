@@ -45,32 +45,44 @@ public class EnemyController : MonoBehaviour
         var chase = new EnemyStateSteering<StatesEnum>(_model, new Seek(_model.transform, target.transform), _obs);
         var chaseCam = new EnemyStateSteering<StatesEnum>(_model, new Seek(_model.transform, cam.transform), _obs);
         var patrol = new EnemyStatePatrol<StatesEnum>(points, minDistance, _model, _obs);
+        var reload = new EnemyReloadState<StatesEnum>(_model);
 
         //Add transitions 
         idle.AddTransition(StatesEnum.Attack, attack);
         idle.AddTransition(StatesEnum.Chase, chase);
         idle.AddTransition(StatesEnum.Patrol, patrol);
         idle.AddTransition(StatesEnum.ChaseCam, chaseCam);
+        idle.AddTransition(StatesEnum.Reload, reload);
 
         attack.AddTransition(StatesEnum.Idle, idle);
         attack.AddTransition(StatesEnum.Chase, chase);
         attack.AddTransition(StatesEnum.Patrol, patrol);
         attack.AddTransition(StatesEnum.ChaseCam, chaseCam);
+        attack.AddTransition(StatesEnum.Reload, reload);
 
         chase.AddTransition(StatesEnum.Idle, idle);
         chase.AddTransition(StatesEnum.Attack, attack);
         chase.AddTransition(StatesEnum.Patrol, patrol);
         chase.AddTransition(StatesEnum.ChaseCam, chaseCam);
+        chase.AddTransition(StatesEnum.Reload, reload);
 
         patrol.AddTransition(StatesEnum.Idle, idle);
         patrol.AddTransition(StatesEnum.Attack, attack);
         patrol.AddTransition(StatesEnum.Chase, chase);
         patrol.AddTransition(StatesEnum.ChaseCam, chaseCam);
+        patrol.AddTransition(StatesEnum.Reload, reload);
 
         chaseCam.AddTransition(StatesEnum.Idle, idle);
         chaseCam.AddTransition(StatesEnum.Chase, chase);
         chaseCam.AddTransition(StatesEnum.Attack, attack);
         chaseCam.AddTransition(StatesEnum.Patrol, patrol);
+        chaseCam.AddTransition(StatesEnum.Reload, reload);
+
+        reload.AddTransition(StatesEnum.Idle, idle);
+        reload.AddTransition(StatesEnum.Chase, chase);
+        reload.AddTransition(StatesEnum.Attack, attack);
+        reload.AddTransition(StatesEnum.Patrol, patrol);
+        reload.AddTransition(StatesEnum.ChaseCam, chaseCam);
 
         //create FSM
         _fsm = new FSM<StatesEnum>(idle);
@@ -84,9 +96,17 @@ public class EnemyController : MonoBehaviour
         var chase = new ActionNode(() => _fsm.Transition(StatesEnum.Chase));
         var patrol = new ActionNode(() => _fsm.Transition(StatesEnum.Patrol));  
         var chaseCam = new ActionNode(() => _fsm.Transition(StatesEnum.ChaseCam));
+        var reload = new ActionNode(() => _fsm.Transition(StatesEnum.Reload));
+
+        //Random
+        var dic = new Dictionary<ITreeNode, float>();
+        dic[reload] = 10;
+        dic[attack] = 30;
+
+        var random = new RandomNode(dic);
 
         //Questions
-        var qIsCooldown = new QuestionNode(() => _model.IsCooldown, idle, attack);
+        var qIsCooldown = new QuestionNode(() => _model.IsCooldown, idle, random);
         var qIsCooldownOutOfRange = new QuestionNode(() => _model.IsCooldown, idle, chase);
         var qAttackRange = new QuestionNode(QuestionAttackRange, qIsCooldown, qIsCooldownOutOfRange);
         var camLoS = new QuestionNode(QuestionCamLoS, chaseCam, patrol);

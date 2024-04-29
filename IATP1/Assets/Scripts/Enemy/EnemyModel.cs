@@ -10,6 +10,7 @@ public class EnemyModel : MonoBehaviour
     public float speed = 5;
     Rigidbody _rb;
     public Action onAttack = delegate { };
+    public Action onReload = delegate { };
 
     private void Awake()
     {
@@ -34,6 +35,13 @@ public class EnemyModel : MonoBehaviour
         _cooldown = StartCoroutine(Cooldown());
 
         onAttack();
+    }
+
+    public void Reload()
+    {
+        _cooldown = StartCoroutine(Cooldown());
+
+        onReload();
     }
 
     IEnumerator Cooldown()
