@@ -314,13 +314,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f49c90a413bdb9f49928b6d769269236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angle: 0
-  radius: 0
+  angle: 215
+  radius: 3
   maskObs:
     serializedVersion: 2
     m_Bits: 64
   points: []
-  minDistance: 0
+  minDistance: 2
   cam: {fileID: 0}
   attackRange: 5
   target: {fileID: 3831408722248371562, guid: bdd9756bba505804a8cf44f21ddf0c84, type: 3}
