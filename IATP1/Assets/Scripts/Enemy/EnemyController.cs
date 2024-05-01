@@ -8,6 +8,8 @@ public class EnemyController : MonoBehaviour
     public float radius;
     public LayerMask maskObs;
 
+    public float timePrediction = 2;
+
     //Patrol
     public Transform[] points;
     public float minDistance;
@@ -19,7 +21,7 @@ public class EnemyController : MonoBehaviour
     FSM<StatesEnum> _fsm;
     ILineOfSight _los;
     public float attackRange;
-    public Transform target;
+    public Rigidbody target;
     ITreeNode _root;
     ObstacleAvoidance _obs;
 
@@ -42,7 +44,7 @@ public class EnemyController : MonoBehaviour
         //create States
         var idle = new EnemyIdleState<StatesEnum>(_model);
         var attack = new EnemyAttackState<StatesEnum>(_model);
-        var chase = new EnemyStateSteering<StatesEnum>(_model, new Seek(_model.transform, target.transform), _obs);
+        var chase = new EnemyStateSteering<StatesEnum>(_model, new Pursuit(_model.transform, target, timePrediction), _obs);
         var chaseCam = new EnemyStateSteering<StatesEnum>(_model, new Seek(_model.transform, cam.transform), _obs);
         var patrol = new EnemyStatePatrol<StatesEnum>(points, minDistance, _model, _obs);
         var reload = new EnemyReloadState<StatesEnum>(_model);
@@ -99,6 +101,7 @@ public class EnemyController : MonoBehaviour
         var reload = new ActionNode(() => _fsm.Transition(StatesEnum.Reload));
 
         //Random
+        //Mas items
         var dic = new Dictionary<ITreeNode, float>();
         dic[reload] = 10;
         dic[attack] = 30;
@@ -117,7 +120,7 @@ public class EnemyController : MonoBehaviour
 
     bool QuestionAttackRange()
     {
-        return _los.CheckRange(target, attackRange);
+        return _los.CheckRange(target.transform, attackRange);
     }
 
     bool QuestionCamLoS()
@@ -127,7 +130,7 @@ public class EnemyController : MonoBehaviour
 
     bool QuestionLoS()
     {
-        return _los.CheckRange(target) && _los.CheckAngle(target) && _los.CheckView(target);
+        return _los.CheckRange(target.transform) && _los.CheckAngle(target.transform) && _los.CheckView(target.transform);
     }
 
     private void Update()

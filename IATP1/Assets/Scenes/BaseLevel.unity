@@ -2909,6 +2909,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1643783622}
     - target: {fileID: 4823620870471221324, guid: d2747260420d66a4f816e173866cd7fb, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 104820076}
+    - target: {fileID: 4823620870471221324, guid: d2747260420d66a4f816e173866cd7fb, type: 3}
       propertyPath: points.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -4520,6 +4524,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1219120757}
+    - target: {fileID: 4823620870471221324, guid: d2747260420d66a4f816e173866cd7fb, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 104820076}
     - target: {fileID: 4823620870471221324, guid: d2747260420d66a4f816e173866cd7fb, type: 3}
       propertyPath: points.Array.size
       value: 2
@@ -6194,6 +6202,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1497610852}
+    - target: {fileID: 4823620870471221324, guid: d2747260420d66a4f816e173866cd7fb, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 104820076}
     - target: {fileID: 4823620870471221324, guid: d2747260420d66a4f816e173866cd7fb, type: 3}
       propertyPath: points.Array.size
       value: 2
@@ -14639,7 +14651,7 @@ PrefabInstance:
     - target: {fileID: 4823620870471221324, guid: d2747260420d66a4f816e173866cd7fb, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 104820082}
+      objectReference: {fileID: 104820076}
     - target: {fileID: 4823620870471221324, guid: d2747260420d66a4f816e173866cd7fb, type: 3}
       propertyPath: minDistance
       value: 2
@@ -16334,6 +16346,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 643807748}
+    - target: {fileID: 4823620870471221324, guid: d2747260420d66a4f816e173866cd7fb, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 104820076}
     - target: {fileID: 4823620870471221324, guid: d2747260420d66a4f816e173866cd7fb, type: 3}
       propertyPath: points.Array.size
       value: 6
@@ -19725,6 +19741,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 292001341}
+    - target: {fileID: 4823620870471221324, guid: d2747260420d66a4f816e173866cd7fb, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 104820076}
     - target: {fileID: 4823620870471221324, guid: d2747260420d66a4f816e173866cd7fb, type: 3}
       propertyPath: points.Array.size
       value: 6
