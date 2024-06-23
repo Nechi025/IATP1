@@ -18,7 +18,7 @@ public class EnemyController : MonoBehaviour
     public CameraModel cam;
 
     EnemyModel _model;
-    FSM<StatesEnum> _fsm;
+    FSM<StatesEnumAll> _fsm;
     ILineOfSight _los;
     public float attackRange;
     public Rigidbody target;
@@ -42,63 +42,63 @@ public class EnemyController : MonoBehaviour
         _obs = new ObstacleAvoidance(_model.transform, angle, radius, maskObs);
 
         //create States
-        var idle = new EnemyIdleState<StatesEnum>(_model);
-        var attack = new EnemyAttackState<StatesEnum>(_model);
-        var chase = new EnemyStateSteering<StatesEnum>(_model, new Pursuit(_model.transform, target, timePrediction), _obs);
-        var chaseCam = new EnemyStateSteering<StatesEnum>(_model, new Seek(_model.transform, cam.transform), _obs);
-        var patrol = new EnemyStatePatrol<StatesEnum>(points, minDistance, _model, _obs);
-        var reload = new EnemyReloadState<StatesEnum>(_model);
+        var idle = new EnemyIdleState<StatesEnumAll>(_model);
+        var attack = new EnemyAttackState<StatesEnumAll>(_model);
+        var chase = new EnemyStateSteering<StatesEnumAll>(_model, new Pursuit(_model.transform, target, timePrediction), _obs);
+        var chaseCam = new EnemyStateSteering<StatesEnumAll>(_model, new Seek(_model.transform, cam.transform), _obs);
+        var patrol = new EnemyStatePatrol<StatesEnumAll>(points, minDistance, _model, _obs);
+        var reload = new EnemyReloadState<StatesEnumAll>(_model);
 
         //Add transitions 
-        idle.AddTransition(StatesEnum.Attack, attack);
-        idle.AddTransition(StatesEnum.Chase, chase);
-        idle.AddTransition(StatesEnum.Patrol, patrol);
-        idle.AddTransition(StatesEnum.ChaseCam, chaseCam);
-        idle.AddTransition(StatesEnum.Reload, reload);
+        idle.AddTransition(StatesEnumAll.Attack, attack);
+        idle.AddTransition(StatesEnumAll.Chase, chase);
+        idle.AddTransition(StatesEnumAll.Patrol, patrol);
+        idle.AddTransition(StatesEnumAll.ChaseCam, chaseCam);
+        idle.AddTransition(StatesEnumAll.Reload, reload);
 
-        attack.AddTransition(StatesEnum.Idle, idle);
-        attack.AddTransition(StatesEnum.Chase, chase);
-        attack.AddTransition(StatesEnum.Patrol, patrol);
-        attack.AddTransition(StatesEnum.ChaseCam, chaseCam);
-        attack.AddTransition(StatesEnum.Reload, reload);
+        attack.AddTransition(StatesEnumAll.Idle, idle);
+        attack.AddTransition(StatesEnumAll.Chase, chase);
+        attack.AddTransition(StatesEnumAll.Patrol, patrol);
+        attack.AddTransition(StatesEnumAll.ChaseCam, chaseCam);
+        attack.AddTransition(StatesEnumAll.Reload, reload);
 
-        chase.AddTransition(StatesEnum.Idle, idle);
-        chase.AddTransition(StatesEnum.Attack, attack);
-        chase.AddTransition(StatesEnum.Patrol, patrol);
-        chase.AddTransition(StatesEnum.ChaseCam, chaseCam);
-        chase.AddTransition(StatesEnum.Reload, reload);
+        chase.AddTransition(StatesEnumAll.Idle, idle);
+        chase.AddTransition(StatesEnumAll.Attack, attack);
+        chase.AddTransition(StatesEnumAll.Patrol, patrol);
+        chase.AddTransition(StatesEnumAll.ChaseCam, chaseCam);
+        chase.AddTransition(StatesEnumAll.Reload, reload);
 
-        patrol.AddTransition(StatesEnum.Idle, idle);
-        patrol.AddTransition(StatesEnum.Attack, attack);
-        patrol.AddTransition(StatesEnum.Chase, chase);
-        patrol.AddTransition(StatesEnum.ChaseCam, chaseCam);
-        patrol.AddTransition(StatesEnum.Reload, reload);
+        patrol.AddTransition(StatesEnumAll.Idle, idle);
+        patrol.AddTransition(StatesEnumAll.Attack, attack);
+        patrol.AddTransition(StatesEnumAll.Chase, chase);
+        patrol.AddTransition(StatesEnumAll.ChaseCam, chaseCam);
+        patrol.AddTransition(StatesEnumAll.Reload, reload);
 
-        chaseCam.AddTransition(StatesEnum.Idle, idle);
-        chaseCam.AddTransition(StatesEnum.Chase, chase);
-        chaseCam.AddTransition(StatesEnum.Attack, attack);
-        chaseCam.AddTransition(StatesEnum.Patrol, patrol);
-        chaseCam.AddTransition(StatesEnum.Reload, reload);
+        chaseCam.AddTransition(StatesEnumAll.Idle, idle);
+        chaseCam.AddTransition(StatesEnumAll.Chase, chase);
+        chaseCam.AddTransition(StatesEnumAll.Attack, attack);
+        chaseCam.AddTransition(StatesEnumAll.Patrol, patrol);
+        chaseCam.AddTransition(StatesEnumAll.Reload, reload);
 
-        reload.AddTransition(StatesEnum.Idle, idle);
-        reload.AddTransition(StatesEnum.Chase, chase);
-        reload.AddTransition(StatesEnum.Attack, attack);
-        reload.AddTransition(StatesEnum.Patrol, patrol);
-        reload.AddTransition(StatesEnum.ChaseCam, chaseCam);
+        reload.AddTransition(StatesEnumAll.Idle, idle);
+        reload.AddTransition(StatesEnumAll.Chase, chase);
+        reload.AddTransition(StatesEnumAll.Attack, attack);
+        reload.AddTransition(StatesEnumAll.Patrol, patrol);
+        reload.AddTransition(StatesEnumAll.ChaseCam, chaseCam);
 
         //create FSM
-        _fsm = new FSM<StatesEnum>(idle);
+        _fsm = new FSM<StatesEnumAll>(idle);
     }
 
     void InitializedTree()
     {
         //Actions
-        var idle = new ActionNode(() => _fsm.Transition(StatesEnum.Idle));
-        var attack = new ActionNode(() => _fsm.Transition(StatesEnum.Attack));
-        var chase = new ActionNode(() => _fsm.Transition(StatesEnum.Chase));
-        var patrol = new ActionNode(() => _fsm.Transition(StatesEnum.Patrol));  
-        var chaseCam = new ActionNode(() => _fsm.Transition(StatesEnum.ChaseCam));
-        var reload = new ActionNode(() => _fsm.Transition(StatesEnum.Reload));
+        var idle = new ActionNode(() => _fsm.Transition(StatesEnumAll.Idle));
+        var attack = new ActionNode(() => _fsm.Transition(StatesEnumAll.Attack));
+        var chase = new ActionNode(() => _fsm.Transition(StatesEnumAll.Chase));
+        var patrol = new ActionNode(() => _fsm.Transition(StatesEnumAll.Patrol));  
+        var chaseCam = new ActionNode(() => _fsm.Transition(StatesEnumAll.ChaseCam));
+        var reload = new ActionNode(() => _fsm.Transition(StatesEnumAll.Reload));
 
         //Random
         //Mas items

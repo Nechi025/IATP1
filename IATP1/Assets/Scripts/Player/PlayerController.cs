@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 
     PlayerModel _player;
     PlayerView _view;
-    FSM<StatesEnum> _fsm;
+    FSM<StatesEnumAll> _fsm;
 
     private void Awake()
     {
@@ -18,13 +18,13 @@ public class PlayerController : MonoBehaviour
 
     void InitializeFSM()
     {
-        _fsm = new FSM<StatesEnum>();
+        _fsm = new FSM<StatesEnumAll>();
 
-        var idle = new PlayerStateIdle<StatesEnum>(StatesEnum.Walk);
-        var walk = new PlayerStateWalk<StatesEnum>(_player, StatesEnum.Idle);
+        var idle = new PlayerStateIdle<StatesEnumAll>(StatesEnumAll.Walk);
+        var walk = new PlayerStateWalk<StatesEnumAll>(_player, StatesEnumAll.Idle);
 
-        idle.AddTransition(StatesEnum.Walk, walk);
-        walk.AddTransition(StatesEnum.Idle, idle);
+        idle.AddTransition(StatesEnumAll.Walk, walk);
+        walk.AddTransition(StatesEnumAll.Idle, idle);
 
         _fsm.SetInit(idle);
     }

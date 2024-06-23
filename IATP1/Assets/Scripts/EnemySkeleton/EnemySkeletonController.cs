@@ -10,7 +10,7 @@ public class EnemySkeletonController : MonoBehaviour
     public float radius;
     public LayerMask maskObs;
 
-    FSM<StatesEnum> _fsm;
+    FSM<StatesEnumAll> _fsm;
     ISteering _steering;
     EnemySkeletonModel _skeleton;
     ObstacleAvoidance _obs;
@@ -34,13 +34,13 @@ public class EnemySkeletonController : MonoBehaviour
 
     void InitializedFSM()
     {
-        _fsm = new FSM<StatesEnum>();
+        _fsm = new FSM<StatesEnumAll>();
 
-        var idle = new SkeletonStateIdle<StatesEnum>();
-        var steering = new SkeletonStateSteering<StatesEnum>(_skeleton, _steering, _obs);
+        var idle = new SkeletonStateIdle<StatesEnumAll>();
+        var steering = new SkeletonStateSteering<StatesEnumAll>(_skeleton, _steering, _obs);
 
-        idle.AddTransition(StatesEnum.Walk, steering);
-        steering.AddTransition(StatesEnum.Idle, idle);
+        idle.AddTransition(StatesEnumAll.Walk, steering);
+        steering.AddTransition(StatesEnumAll.Idle, idle);
 
         _fsm.SetInit(steering);
     }
