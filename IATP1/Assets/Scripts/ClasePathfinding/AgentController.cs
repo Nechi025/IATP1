@@ -90,10 +90,10 @@ public class AgentController : MonoBehaviour
     {
         return current == target;
     }
-    /*
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(crash.transform.position, radius);
-    }*/
+    }
 }

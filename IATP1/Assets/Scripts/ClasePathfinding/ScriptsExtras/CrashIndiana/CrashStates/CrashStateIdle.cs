@@ -12,7 +12,7 @@ public class CrashStateIdle<T> : State<T>
     public override void Enter()
     {
         base.Enter();
-        _anim.SetTrigger("Dance");
+        //_anim.SetTrigger("Idle");
         _anim.SetFloat("Vel", 0);
     }
 }
