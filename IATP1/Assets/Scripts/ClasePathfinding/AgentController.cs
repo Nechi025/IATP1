@@ -10,37 +10,26 @@ public class AgentController : MonoBehaviour
     public LayerMask maskObs;
     public Box box;
     public Node target;
-    public void RunBFS()
+    public MyGrid myGrid;
+
+    public void RunThetaStar()
     {
         var start = GetNearNode(crash.transform.position);
         if (start == null) return;
-        List<Node> path = BFS.Run(start, GetConnections, IsSatiesfies);
+        List<Node> path = ThetaStar.Run(start, GetConnections, IsSatiesfies, GetCost, Heuristic, InView);
         crash.GetStateWaypoints.SetWayPoints(path);
         box.SetWayPoints(path);
     }
-    public void RunDFS()
+    bool InView(Node grandParent, Node child)
     {
-        var start = GetNearNode(crash.transform.position);
-        if (start == null) return;
-        List<Node> path = DFS.Run(start, GetConnections, IsSatiesfies);
-        crash.GetStateWaypoints.SetWayPoints(path);
-        box.SetWayPoints(path);
+        Debug.Log("RAY");
+        return InView(grandParent.transform.position, child.transform.position);
     }
-    public void RunDijkstra()
+    bool InView(Vector3 a, Vector3 b)
     {
-        var start = GetNearNode(crash.transform.position);
-        if (start == null) return;
-        List<Node> path = Dijkstra.Run(start, GetConnections, IsSatiesfies, GetCost);
-        crash.GetStateWaypoints.SetWayPoints(path);
-        box.SetWayPoints(path);
-    }
-    public void RunAStar()
-    {
-        var start = GetNearNode(crash.transform.position);
-        if (start == null) return;
-        List<Node> path = AStar.Run(start, GetConnections, IsSatiesfies, GetCost, Heuristic);
-        crash.GetStateWaypoints.SetWayPoints(path);
-        box.SetWayPoints(path);
+        //a->b  b-a
+        Vector3 dir = b - a;
+        return !Physics.Raycast(a, dir.normalized, dir.magnitude, maskObs);
     }
     float Heuristic(Node current)
     {
@@ -61,6 +50,7 @@ public class AgentController : MonoBehaviour
         }
         return cost;
     }
+
     Node GetNearNode(Vector3 pos)
     {
         var nodes = Physics.OverlapSphere(pos, radius, maskNodes);
@@ -86,11 +76,12 @@ public class AgentController : MonoBehaviour
     {
         return current.neightbourds;
     }
+    
     bool IsSatiesfies(Node current)
     {
         return current == target;
     }
-    
+   
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

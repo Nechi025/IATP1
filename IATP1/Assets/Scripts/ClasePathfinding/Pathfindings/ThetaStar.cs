@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AStar
+public class ThetaStar
 {
-    public static List<T> Run<T>(T start, Func<T, List<T>> getConnections, Func<T, bool> isSatisfies, Func<T, T, float> getCost, Func<T, float> heuristic, int watchdog = 500)
+    public static List<T> Run<T>(T start, Func<T, List<T>> getConnections, Func<T, bool> isSatisfies, Func<T, T, float> getCost, Func<T, float> heuristic, Func<T, T, bool> inView, int watchdog = 500)
     {
         PriorityQueue<T> pending = new PriorityQueue<T>();
         HashSet<T> visited = new HashSet<T>();
@@ -16,7 +16,7 @@ public class AStar
         cost[start] = 0;
         while (!pending.IsEmpty)
         {
-            Debug.Log("AStar");
+            Debug.Log("ThetaStar");
             watchdog--;
             if (watchdog <= 0) break;
             T current = pending.Dequeue();
@@ -37,30 +37,19 @@ public class AStar
             {
                 T child = connections[i];
                 if (visited.Contains(child)) continue;
-                float currentCost = cost[current] + getCost(current, child);
+                T realParent = current;
+                if (parents.ContainsKey(current) && inView(parents[current], child))
+                {
+                    realParent = parents[current];
+                }
+
+                float currentCost = cost[realParent] + getCost(realParent, child);
                 if (cost.ContainsKey(child) && currentCost >= cost[child]) continue;
                 cost[child] = currentCost;
                 pending.Enqueue(child, currentCost + heuristic(child));
-                parents[child] = current;
+                parents[child] = realParent;
             }
         }
         return new List<T>();
-    }
-    public static List<T> CleanPath<T>(List<T> path, Func<T, T, bool> inView)
-    {
-        if (path == null) return path;
-        if (path.Count <= 2) return path;
-        var newPath = new List<T>();
-        newPath.Add(path[0]);
-        for (int i = 2; i < path.Count; i++)
-        {
-            var gp = newPath[newPath.Count - 1];
-            if (!inView(gp, path[i]))
-            {
-                newPath.Add(path[i - 1]);
-            }
-        }
-        newPath.Add(path[path.Count - 1]);
-        return newPath;
     }
 }
