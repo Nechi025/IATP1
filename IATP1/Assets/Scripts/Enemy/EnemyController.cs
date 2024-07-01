@@ -10,10 +10,6 @@ public class EnemyController : MonoBehaviour
 
     public float timePrediction = 2;
 
-    //Patrol
-    public Transform[] points;
-    public float minDistance;
-
     //Camera
     public CameraModel cam;
 
