@@ -24,6 +24,7 @@ public class EnemyController : MonoBehaviour
     public Rigidbody target;
     ITreeNode _root;
     ObstacleAvoidance _obs;
+    EnemyStatePatrol<StatesEnumAll> _stateFollowPoints;
 
     private void Awake()
     {
@@ -35,6 +36,7 @@ public class EnemyController : MonoBehaviour
     {
         InitializeFSM();
         InitializedTree();
+        _model._controller.RunAStar();
     }
 
     void InitializeFSM()
@@ -46,44 +48,44 @@ public class EnemyController : MonoBehaviour
         var attack = new EnemyAttackState<StatesEnumAll>(_model);
         var chase = new EnemyStateSteering<StatesEnumAll>(_model, new Pursuit(_model.transform, target, timePrediction), _obs);
         var chaseCam = new EnemyStateSteering<StatesEnumAll>(_model, new Seek(_model.transform, cam.transform), _obs);
-        var patrol = new EnemyStatePatrol<StatesEnumAll>(points, minDistance, _model, _obs);
+         _stateFollowPoints = new EnemyStatePatrol<StatesEnumAll>(_model, _obs);
         var reload = new EnemyReloadState<StatesEnumAll>(_model);
 
         //Add transitions 
         idle.AddTransition(StatesEnumAll.Attack, attack);
         idle.AddTransition(StatesEnumAll.Chase, chase);
-        idle.AddTransition(StatesEnumAll.Patrol, patrol);
+        idle.AddTransition(StatesEnumAll.Patrol, _stateFollowPoints);
         idle.AddTransition(StatesEnumAll.ChaseCam, chaseCam);
         idle.AddTransition(StatesEnumAll.Reload, reload);
 
         attack.AddTransition(StatesEnumAll.Idle, idle);
         attack.AddTransition(StatesEnumAll.Chase, chase);
-        attack.AddTransition(StatesEnumAll.Patrol, patrol);
+        attack.AddTransition(StatesEnumAll.Patrol, _stateFollowPoints);
         attack.AddTransition(StatesEnumAll.ChaseCam, chaseCam);
         attack.AddTransition(StatesEnumAll.Reload, reload);
 
         chase.AddTransition(StatesEnumAll.Idle, idle);
         chase.AddTransition(StatesEnumAll.Attack, attack);
-        chase.AddTransition(StatesEnumAll.Patrol, patrol);
+        chase.AddTransition(StatesEnumAll.Patrol, _stateFollowPoints);
         chase.AddTransition(StatesEnumAll.ChaseCam, chaseCam);
         chase.AddTransition(StatesEnumAll.Reload, reload);
 
-        patrol.AddTransition(StatesEnumAll.Idle, idle);
-        patrol.AddTransition(StatesEnumAll.Attack, attack);
-        patrol.AddTransition(StatesEnumAll.Chase, chase);
-        patrol.AddTransition(StatesEnumAll.ChaseCam, chaseCam);
-        patrol.AddTransition(StatesEnumAll.Reload, reload);
+        _stateFollowPoints.AddTransition(StatesEnumAll.Idle, idle);
+        _stateFollowPoints.AddTransition(StatesEnumAll.Attack, attack);
+        _stateFollowPoints.AddTransition(StatesEnumAll.Chase, chase);
+        _stateFollowPoints.AddTransition(StatesEnumAll.ChaseCam, chaseCam);
+        _stateFollowPoints.AddTransition(StatesEnumAll.Reload, reload);
 
         chaseCam.AddTransition(StatesEnumAll.Idle, idle);
         chaseCam.AddTransition(StatesEnumAll.Chase, chase);
         chaseCam.AddTransition(StatesEnumAll.Attack, attack);
-        chaseCam.AddTransition(StatesEnumAll.Patrol, patrol);
+        chaseCam.AddTransition(StatesEnumAll.Patrol, _stateFollowPoints);
         chaseCam.AddTransition(StatesEnumAll.Reload, reload);
 
         reload.AddTransition(StatesEnumAll.Idle, idle);
         reload.AddTransition(StatesEnumAll.Chase, chase);
         reload.AddTransition(StatesEnumAll.Attack, attack);
-        reload.AddTransition(StatesEnumAll.Patrol, patrol);
+        reload.AddTransition(StatesEnumAll.Patrol, _stateFollowPoints);
         reload.AddTransition(StatesEnumAll.ChaseCam, chaseCam);
 
         //create FSM
@@ -138,4 +140,6 @@ public class EnemyController : MonoBehaviour
         _fsm.OnUpdate();
         _root.Execute();
     }
+
+    public IPoints GetStateWaypoints => _stateFollowPoints;
 }

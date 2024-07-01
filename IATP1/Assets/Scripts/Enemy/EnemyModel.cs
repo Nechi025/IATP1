@@ -11,6 +11,10 @@ public class EnemyModel : MonoBehaviour
     Rigidbody _rb;
     public Action onAttack = delegate { };
     public Action onReload = delegate { };
+    public AgentController _controller;
+    public Node[] _waypoints;
+    public Node currentWaypointIndex;
+    public int indexWaypoint = 0;
 
     private void Awake()
     {

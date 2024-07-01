@@ -4,20 +4,28 @@ using UnityEngine;
 
 public class AgentController : MonoBehaviour
 {
-    public CrashController crash;
+    public EnemyController enemy;
     public float radius = 3;
     public LayerMask maskNodes;
     public LayerMask maskObs;
     public Box box;
     public Node target;
-    public MyGrid myGrid;
+    //public MyGrid myGrid;
 
+    public void RunAStar()
+    {
+        var start = GetNearNode(enemy.transform.position);
+        if (start == null) return;
+        List<Node> path = AStar.Run(start, GetConnections, IsSatiesfies, GetCost, Heuristic);
+        enemy.GetStateWaypoints.SetWayPoints(path);
+        box.SetWayPoints(path);
+    }
     public void RunThetaStar()
     {
-        var start = GetNearNode(crash.transform.position);
+        var start = GetNearNode(enemy.transform.position);
         if (start == null) return;
         List<Node> path = ThetaStar.Run(start, GetConnections, IsSatiesfies, GetCost, Heuristic, InView);
-        crash.GetStateWaypoints.SetWayPoints(path);
+        enemy.GetStateWaypoints.SetWayPoints(path);
         box.SetWayPoints(path);
     }
     bool InView(Node grandParent, Node child)
@@ -82,9 +90,9 @@ public class AgentController : MonoBehaviour
         return current == target;
     }
    
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(crash.transform.position, radius);
-    }
+        Gizmos.DrawWireSphere(enemy.transform.position, radius);
+    }*/
 }
