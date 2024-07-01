@@ -8,8 +8,6 @@ public class EnemyView : MonoBehaviour
     public Rigidbody body;
     EnemyModel _model;
     
-
-
     private void Awake()
     {
         _model = GetComponent<EnemyModel>();
@@ -18,11 +16,11 @@ public class EnemyView : MonoBehaviour
     }
 
     void OnAttack()
-    {
+    { 
         _anim.SetTrigger("Attack");
-        
-    }
 
+    }
+   
     void OnReload()
     {
         _anim.SetTrigger("Reload");

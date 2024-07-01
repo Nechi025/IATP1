@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public int playerHealth = 1;
+    public int playerHealth = 3;
 
     private void Awake()
     {
@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
             YouLose();
         }
     }
+    
 
     public void YouWin()
     {
