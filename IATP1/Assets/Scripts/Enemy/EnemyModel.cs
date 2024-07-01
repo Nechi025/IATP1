@@ -16,6 +16,7 @@ public class EnemyModel : MonoBehaviour
     public Node currentWaypointIndex;
     public int indexWaypoint = 0;
 
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -37,7 +38,6 @@ public class EnemyModel : MonoBehaviour
     public void Attack()
     {
         _cooldown = StartCoroutine(Cooldown());
-
         onAttack();
     }
 

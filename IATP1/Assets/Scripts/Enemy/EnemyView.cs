@@ -7,6 +7,8 @@ public class EnemyView : MonoBehaviour
     public Animator _anim;
     public Rigidbody body;
     EnemyModel _model;
+    
+
 
     private void Awake()
     {
@@ -18,6 +20,7 @@ public class EnemyView : MonoBehaviour
     void OnAttack()
     {
         _anim.SetTrigger("Attack");
+        
     }
 
     void OnReload()

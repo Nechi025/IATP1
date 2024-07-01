@@ -14,6 +14,13 @@ public class PlayerModel : MonoBehaviour
 
     public Transform cam;
 
+    private GameManager gameManager;
+
+    void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
+
     public void Move(Vector3 dir)
     {
         if (dir.magnitude >= 0.1f)
@@ -27,6 +34,14 @@ public class PlayerModel : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("WinTrigger"))
+        {
+            gameManager.YouWin();
         }
     }
 }
