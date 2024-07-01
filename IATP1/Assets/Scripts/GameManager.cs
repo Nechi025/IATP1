@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public int playerHealth = 3;
+    public bool isOnSight = false;
 
     private void Awake()
     {
@@ -16,15 +16,6 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
         else Instance = this;
-    }
-
-    public void TakeDamage(int damage)
-    {
-        playerHealth -= damage;
-        if (playerHealth <= 0)
-        {
-            YouLose();
-        }
     }
     
 
@@ -36,8 +27,15 @@ public class GameManager : MonoBehaviour
 
     public void YouLose()
     {
+        isOnSight = true;
+        StartCoroutine(Wait());
+    }
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(2);
         SceneManager.LoadScene("LoseScreen");
     }
 
-   
+
 }

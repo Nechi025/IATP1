@@ -12,15 +12,9 @@ public class EnemyAttackState<T> : State<T>
         _model = model;
     }
 
-    IEnumerator second()
-    {
-        yield return new WaitForSeconds(5);
-    }
-
     public override void Execute()
     {
         _model.Attack();
-
-        SceneManager.LoadScene("LoseScreen");
+        GameManager.Instance.YouLose();
     }
 }
