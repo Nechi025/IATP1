@@ -4,42 +4,20 @@ using UnityEngine;
 
 public class AgentController : MonoBehaviour
 {
-    public EnemyController enemy;
     public float radius = 3;
     public LayerMask maskNodes;
     public LayerMask maskObs;
-    public Box box;
-    public Node target;
-    //public MyGrid myGrid;
 
-    public void RunAStar()
+    public List<Node> RunAStar(Vector3 enemy, Vector3 target)
     {
-        var start = GetNearNode(enemy.transform.position);
-        if (start == null) return;
-        List<Node> path = AStar.Run(start, GetConnections, IsSatiesfies, GetCost, Heuristic);
-        enemy.GetStateWaypoints.SetWayPoints(path);
-        box.SetWayPoints(path);
+        var start = GetNearNode(enemy);
+        Node end = GetNearNode(target);
+        if (start == null) return new List<Node>();
+        if (end == null) return new List<Node>();
+        return AStar.Run(start, GetConnections,(x)=> IsSatiesfies(x, end), GetCost,(x) => Heuristic(x, end));
     }
-    public void RunThetaStar()
-    {
-        var start = GetNearNode(enemy.transform.position);
-        if (start == null) return;
-        List<Node> path = ThetaStar.Run(start, GetConnections, IsSatiesfies, GetCost, Heuristic, InView);
-        enemy.GetStateWaypoints.SetWayPoints(path);
-        box.SetWayPoints(path);
-    }
-    bool InView(Node grandParent, Node child)
-    {
-        Debug.Log("RAY");
-        return InView(grandParent.transform.position, child.transform.position);
-    }
-    bool InView(Vector3 a, Vector3 b)
-    {
-        //a->b  b-a
-        Vector3 dir = b - a;
-        return !Physics.Raycast(a, dir.normalized, dir.magnitude, maskObs);
-    }
-    float Heuristic(Node current)
+
+    float Heuristic(Node current, Node target)
     {
         float heuristic = 0;
         float multiplierDistance = 1;
@@ -59,7 +37,7 @@ public class AgentController : MonoBehaviour
         return cost;
     }
 
-    Node GetNearNode(Vector3 pos)
+    public Node GetNearNode(Vector3 pos)
     {
         var nodes = Physics.OverlapSphere(pos, radius, maskNodes);
         Node nearNode = null;
@@ -85,7 +63,7 @@ public class AgentController : MonoBehaviour
         return current.neightbourds;
     }
     
-    bool IsSatiesfies(Node current)
+    bool IsSatiesfies(Node current, Node target)
     {
         return current == target;
     }

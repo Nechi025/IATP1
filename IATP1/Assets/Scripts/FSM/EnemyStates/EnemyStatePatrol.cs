@@ -9,11 +9,19 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
     int _nextPoint = 0;
     bool _isFinishPath = true;
     ObstacleAvoidance _obs;
+
     public EnemyStatePatrol(EnemyModel model, ObstacleAvoidance obs)
     {
         _model = model;
         _obs = obs;
     }
+
+    public override void Enter()
+    {
+        base.Enter();
+        SetWayPoints(_model._waypoints);
+    }
+
     public override void Execute()
     {
         base.Execute();
@@ -35,35 +43,40 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
         if (newPoints.Count == 0) return;
         //_anim.Play("CIA_Idle");
         _waypoints = newPoints;
-        var pos = _waypoints[_nextPoint];
-        pos.y = _model.transform.position.y;
         _isFinishPath = false;
     }
     void Run()
     {
-        if (IsFinishPath) return;
         var point = _waypoints[_nextPoint];
-        var posPoint = point;
-        //posPoint.y = _model.transform.position.y;
-        Vector3 dir = _obs.GetDir((posPoint - _model.transform.position).normalized);
+        Vector3 dir = _obs.GetDir((point - _model.transform.position).normalized);
         if (dir.magnitude < 0.2f)
         {
             if (_nextPoint + 1 < _waypoints.Count)
                 _nextPoint++;
             else
             {
-                _model.indexWaypoint = Random.Range(0, _model._waypoints.Length);
-                _model._controller.target = _model._waypoints[_model.indexWaypoint];
-
-                _nextPoint = 0;
-                
-                //_isFinishPath = true;
+                _isFinishPath = true;
                 return;
             }
+            /*if (_nextPoint + 1 < _waypoints.Count)
+            {
+                Debug.Log("a");
+                //_model._controller.RunAStar(_model.transform.position, _model._waypoints[3].transform.position);
+                _nextPoint++;
+            }
+            
+            else
+            {
+                Debug.Log("ab");
+                _model.indexWaypoint = Random.Range(0, _model._waypoints.Count);
+                _model._controller.RunAStar(_model.transform.position, _model._waypoints[_model.indexWaypoint].transform.position);
+                _nextPoint = 0;
+            }*/
         }
         _model.Move(dir.normalized);
         _model.LookDir(dir);
     }
+
     public bool IsFinishPath => _isFinishPath;
 }
 

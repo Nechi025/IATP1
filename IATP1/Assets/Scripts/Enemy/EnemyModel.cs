@@ -12,7 +12,7 @@ public class EnemyModel : MonoBehaviour
     public Action onAttack = delegate { };
     public Action onReload = delegate { };
     public AgentController _controller;
-    public Node[] _waypoints;
+    public List<Node> _waypoints;
     public Node currentWaypointIndex;
     public int indexWaypoint = 0;
 

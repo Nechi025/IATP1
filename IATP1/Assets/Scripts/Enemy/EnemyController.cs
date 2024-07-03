@@ -32,7 +32,9 @@ public class EnemyController : MonoBehaviour
     {
         InitializeFSM();
         InitializedTree();
-        _model._controller.RunAStar();
+        Debug.Log("c");
+        int random = Random.Range(0, _model._waypoints.Count);
+        _model._controller.RunAStar(transform.position, _model._waypoints[3].transform.position);
     }
 
     void InitializeFSM()
