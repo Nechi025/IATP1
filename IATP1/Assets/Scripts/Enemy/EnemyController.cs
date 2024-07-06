@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour
     ObstacleAvoidance _obs;
     EnemyStatePatrol<StatesEnumAll> _stateFollowPoints;
 
+
     private void Awake()
     {
         _model = GetComponent<EnemyModel>();
@@ -34,7 +35,6 @@ public class EnemyController : MonoBehaviour
         InitializedTree();
         Debug.Log("c");
         int random = Random.Range(0, _model._waypoints.Count);
-        _model._controller.RunAStar(transform.position, _model._waypoints[3].transform.position);
     }
 
     void InitializeFSM()
@@ -44,9 +44,9 @@ public class EnemyController : MonoBehaviour
         //create States
         var idle = new EnemyIdleState<StatesEnumAll>(_model);
         var attack = new EnemyAttackState<StatesEnumAll>(_model);
-        var chase = new EnemyStateSteering<StatesEnumAll>(_model, new Pursuit(_model.transform, target, timePrediction), _obs);
+        var chase = new EnemyStateSteering<StatesEnumAll>(_model, new Seek(_model.transform, target.transform), _obs);
         var chaseCam = new EnemyStateSteering<StatesEnumAll>(_model, new Seek(_model.transform, cam.transform), _obs);
-         _stateFollowPoints = new EnemyStatePatrol<StatesEnumAll>(_model, _obs);
+         _stateFollowPoints = new EnemyStatePatrol<StatesEnumAll>(_model, _obs, target.position);
         var reload = new EnemyReloadState<StatesEnumAll>(_model);
 
         //Add transitions 

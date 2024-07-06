@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AgentController : MonoBehaviour
 {
-    public float radius = 3;
+    public float radius = 5;
     public LayerMask maskNodes;
     public LayerMask maskObs;
 

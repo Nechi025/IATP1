@@ -5,21 +5,23 @@ using UnityEngine;
 public class EnemyStatePatrol<T> : State<T>, IPoints
 {
     EnemyModel _model;
+    Vector3 _target;
     List<Vector3> _waypoints;
     int _nextPoint = 0;
     bool _isFinishPath = true;
     ObstacleAvoidance _obs;
 
-    public EnemyStatePatrol(EnemyModel model, ObstacleAvoidance obs)
+    public EnemyStatePatrol(EnemyModel model, ObstacleAvoidance obs, Vector3 target)
     {
         _model = model;
         _obs = obs;
+        _target = target;
     }
 
     public override void Enter()
     {
         base.Enter();
-        SetWayPoints(_model._waypoints);
+        SetWayPoints(_model._controller.RunAStar(_model.transform.position, _model._waypoints[1].transform.position));
     }
 
     public override void Execute()
@@ -56,22 +58,10 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
             else
             {
                 _isFinishPath = true;
+                _model.indexWaypoint = Random.Range(0, _model._waypoints.Count);
+                SetWayPoints(_model._controller.RunAStar(_model.transform.position, _model._waypoints[_model.indexWaypoint].transform.position));
                 return;
             }
-            /*if (_nextPoint + 1 < _waypoints.Count)
-            {
-                Debug.Log("a");
-                //_model._controller.RunAStar(_model.transform.position, _model._waypoints[3].transform.position);
-                _nextPoint++;
-            }
-            
-            else
-            {
-                Debug.Log("ab");
-                _model.indexWaypoint = Random.Range(0, _model._waypoints.Count);
-                _model._controller.RunAStar(_model.transform.position, _model._waypoints[_model.indexWaypoint].transform.position);
-                _nextPoint = 0;
-            }*/
         }
         _model.Move(dir.normalized);
         _model.LookDir(dir);
