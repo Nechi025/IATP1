@@ -3201,7 +3201,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 466.73, y: 231}
+  m_SizeDelta: {x: 522.02, y: 327.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1745605802
 MonoBehaviour:
@@ -3225,10 +3225,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 54
+    m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 3
     m_MaxSize: 70
     m_Alignment: 1
     m_AlignByGeometry: 0
@@ -3238,9 +3238,17 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Mateo Poey
 
+
+
     Ignacio Alos Wolert
 
-    Martina Colombo'
+    ignacioaloswol@hotmail.com
+
+
+    Martina
+    Colombo
+
+'
 --- !u!222 &1745605803
 CanvasRenderer:
   m_ObjectHideFlags: 0

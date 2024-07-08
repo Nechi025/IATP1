@@ -44,7 +44,7 @@ public class EnemyController : MonoBehaviour
         //create States
         var idle = new EnemyIdleState<StatesEnumAll>(_model);
         var attack = new EnemyAttackState<StatesEnumAll>(_model);
-        var chase = new EnemyStateSteering<StatesEnumAll>(_model, new Seek(_model.transform), _obs, target.position);
+        var chase = new EnemyStateSteering<StatesEnumAll>(_model, GetComponent<FlockingManager>(), _obs, target.position);
         var chaseCam = new EnemyStateSteering<StatesEnumAll>(_model, new Seek(_model.transform), _obs, cam.transform.position);
          _stateFollowPoints = new EnemyStatePatrol<StatesEnumAll>(_model, _obs);
         var reload = new EnemyReloadState<StatesEnumAll>(_model);

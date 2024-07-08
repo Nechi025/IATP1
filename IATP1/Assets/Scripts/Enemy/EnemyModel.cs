@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyModel : MonoBehaviour
+public class EnemyModel : MonoBehaviour, IBoid
 {
     public float attackCooldown;
     Coroutine _cooldown;
@@ -56,4 +56,8 @@ public class EnemyModel : MonoBehaviour
     }
 
     public bool IsCooldown => _cooldown != null;
+
+    public Vector3 Position => transform.position;
+
+    public Vector3 Front => transform.forward;
 }
