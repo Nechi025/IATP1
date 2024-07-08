@@ -15,6 +15,7 @@ public class EnemyModel : MonoBehaviour
     public List<Node> _waypoints;
     public Node currentWaypointIndex;
     public int indexWaypoint = 0;
+    public int chanceIncrease = 0;
 
 
     private void Awake()
@@ -44,7 +45,7 @@ public class EnemyModel : MonoBehaviour
     public void Reload()
     {
         _cooldown = StartCoroutine(Cooldown());
-
+        chanceIncrease += 15;
         onReload();
     }
 

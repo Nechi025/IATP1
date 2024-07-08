@@ -5,17 +5,15 @@ using UnityEngine;
 public class EnemyStatePatrol<T> : State<T>, IPoints
 {
     EnemyModel _model;
-    Vector3 _target;
     List<Vector3> _waypoints;
     int _nextPoint = 0;
     bool _isFinishPath = true;
     ObstacleAvoidance _obs;
 
-    public EnemyStatePatrol(EnemyModel model, ObstacleAvoidance obs, Vector3 target)
+    public EnemyStatePatrol(EnemyModel model, ObstacleAvoidance obs)
     {
         _model = model;
         _obs = obs;
-        _target = target;
     }
 
     public override void Enter()

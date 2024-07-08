@@ -24,7 +24,7 @@ public class EnemySkeletonController : MonoBehaviour
 
     void InitializeSteerings()
     {
-        var seek = new Seek(_skeleton.transform, target.transform);
+        var seek = new Seek(_skeleton.transform);
         var flee = new Flee(_skeleton.transform, target.transform);
         var pursuit = new Pursuit(_skeleton.transform, target, timePrediction);
         var evade = new Evade(_skeleton.transform, target, timePrediction);

@@ -44,9 +44,9 @@ public class EnemyController : MonoBehaviour
         //create States
         var idle = new EnemyIdleState<StatesEnumAll>(_model);
         var attack = new EnemyAttackState<StatesEnumAll>(_model);
-        var chase = new EnemyStateSteering<StatesEnumAll>(_model, new Seek(_model.transform, target.transform), _obs);
-        var chaseCam = new EnemyStateSteering<StatesEnumAll>(_model, new Seek(_model.transform, cam.transform), _obs);
-         _stateFollowPoints = new EnemyStatePatrol<StatesEnumAll>(_model, _obs, target.position);
+        var chase = new EnemyStateSteering<StatesEnumAll>(_model, new Seek(_model.transform), _obs, target.position);
+        var chaseCam = new EnemyStateSteering<StatesEnumAll>(_model, new Seek(_model.transform), _obs, cam.transform.position);
+         _stateFollowPoints = new EnemyStatePatrol<StatesEnumAll>(_model, _obs);
         var reload = new EnemyReloadState<StatesEnumAll>(_model);
 
         //Add transitions 
@@ -103,8 +103,9 @@ public class EnemyController : MonoBehaviour
         //Random
         //Mas items
         var dic = new Dictionary<ITreeNode, float>();
-        dic[reload] = 10;
-        dic[attack] = 30;
+        dic[patrol] = 5;
+        dic[reload] = 30;
+        dic[attack] = 10 + _model.chanceIncrease;
 
         var random = new RandomNode(dic);
 
